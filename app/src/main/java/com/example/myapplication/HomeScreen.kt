@@ -277,7 +277,10 @@ fun HomeScreen(timeTableViewModel: TimeTableViewModel) {
                                 .fillMaxSize(0.5f),
                             contentAlignment = Alignment.Center
                         ) {
-                            Text("No Time Table Found!!", fontSize = 20.sp, color = Color.Red)
+                            if(branch=="branch" || year=="class"){
+                                Text("Please Select Branch And Class", fontSize = 20.sp, color = Color.Red)
+                            }
+                            else Text("No Time Table Found!!", fontSize = 20.sp, color = Color.Red)
                         }
                     } else {
                         LazyColumn(verticalArrangement = Arrangement.spacedBy(10.dp)) {
