@@ -8,6 +8,7 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 import java.sql.Date
 
+//nothing
 interface ApiService{
 
     @GET("api/timetable/{className}")
