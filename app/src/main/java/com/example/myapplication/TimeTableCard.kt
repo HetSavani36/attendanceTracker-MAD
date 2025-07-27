@@ -1,5 +1,6 @@
 package com.example.myapplication
 
+import android.widget.Space
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -54,7 +55,7 @@ fun TimeTableCard(timeTableItem: TimeTableItem,timeTableViewModel: TimeTableView
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Text(getTime(timeTableItem.slot), fontSize = 17.sp, fontWeight = FontWeight.Medium)
+                Text(getTime(timeTableItem.slot), fontSize = 17.sp, fontWeight = FontWeight.SemiBold)
                 IconButton(
                     onClick = {
                         showDialog=true
@@ -68,19 +69,20 @@ fun TimeTableCard(timeTableItem: TimeTableItem,timeTableViewModel: TimeTableView
                     )
                 }
             }
-            timeTableItem.lecture?.subjectName?.let {
-                Text(
-                    it,
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight.Medium
-                )
-            }
+
+            Spacer(modifier = Modifier.size(10.dp))
+
+            Text(
+                timeTableItem.lecture?.subjectName.toString(),
+                fontSize = 20.sp,
+                fontWeight = FontWeight.Bold
+            )
             Spacer(modifier = Modifier.size(25.dp))
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                timeTableItem.lecture?.facultyFullName?.let { Text(it, fontSize = 17.sp) }
+                Text(timeTableItem.lecture?.facultyFullName.toString(), fontWeight = FontWeight.Medium ,fontSize = 17.sp)
                 Row {
                     Text("Present: ", fontSize = 16.sp)
                     Text(timeTableItem.attendanceCount.total.toString(), fontSize = 16.sp, color = Color.Blue)
@@ -113,7 +115,10 @@ fun TimeTableCard1(timeTableItem: TimeTableItem, batch: String,timeTableViewMode
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Text(getTime(timeTableItem.slot), fontSize = 17.sp, fontWeight = FontWeight.Medium)
+                Text(getTime(timeTableItem.slot), fontSize = 17.sp, fontWeight = FontWeight.SemiBold)
+
+                Text("Batch: " + batch, fontWeight = FontWeight.SemiBold, fontSize = 17.sp)
+
                 IconButton(
                     onClick = {showDialog=true}
                 ) {
@@ -125,26 +130,26 @@ fun TimeTableCard1(timeTableItem: TimeTableItem, batch: String,timeTableViewMode
                     )
                 }
             }
-
+            Spacer(modifier = Modifier.size(10.dp))
             if (batch == "A") Text(
                 timeTableItem.lab?.A?.subjectName.toString(),
                 fontSize = 20.sp,
-                fontWeight = FontWeight.Medium
+                fontWeight = FontWeight.Bold
             )
             if (batch == "B") Text(
                 timeTableItem.lab?.B?.subjectName.toString(),
                 fontSize = 20.sp,
-                fontWeight = FontWeight.Medium
+                fontWeight = FontWeight.Bold
             )
             if (batch == "C") Text(
                 timeTableItem.lab?.C?.subjectName.toString(),
                 fontSize = 20.sp,
-                fontWeight = FontWeight.Medium
+                fontWeight = FontWeight.Bold
             )
             if (batch == "D") Text(
                 timeTableItem.lab?.D?.subjectName.toString(),
                 fontSize = 20.sp,
-                fontWeight = FontWeight.Medium
+                fontWeight = FontWeight.Bold
             )
 
             Spacer(modifier = Modifier.size(25.dp))
@@ -153,12 +158,12 @@ fun TimeTableCard1(timeTableItem: TimeTableItem, batch: String,timeTableViewMode
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
 
-                if (batch == "A") timeTableItem.lab?.A?.facultyName?.let { Text(it, fontSize = 17.sp) }
-                if (batch == "B") timeTableItem.lab?.B?.facultyName?.let { Text(it, fontSize = 17.sp) }
-                if (batch == "C") timeTableItem.lab?.C?.facultyName?.let { Text(it, fontSize = 17.sp) }
-                if (batch == "D") timeTableItem.lab?.D?.facultyName?.let { Text(it, fontSize = 17.sp) }
+                if (batch == "A") Text(timeTableItem.lab?.A?.facultyFullName.toString(), fontSize = 17.sp, fontWeight = FontWeight.Medium)
+                if (batch == "B") Text(timeTableItem.lab?.B?.facultyFullName.toString(), fontSize = 17.sp, fontWeight = FontWeight.Medium)
+                if (batch == "C") Text(timeTableItem.lab?.C?.facultyFullName.toString(), fontSize = 17.sp, fontWeight = FontWeight.Medium)
+                if (batch == "D") Text(timeTableItem.lab?.D?.facultyFullName.toString(), fontSize = 17.sp, fontWeight = FontWeight.Medium)
 
-                Text("Batch: " + batch, fontSize = 17.sp)
+//                Text("Batch: " + batch, fontSize = 17.sp)
                 Row {
                     Text("Present: ", fontSize = 16.sp)
                     val count = when (batch) {

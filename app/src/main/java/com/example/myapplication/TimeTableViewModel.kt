@@ -24,8 +24,8 @@ class TimeTableViewModel: ViewModel() {
             _isTimeTableLoading.value=true
             Log.d("Checking","Entered")
             try {
-//                val formatted = LocalDate.now().toString()  // "2025-07-27"
-//                Log.d("Checking",formatted)
+                val formatted = LocalDate.now().toString()  // "2025-07-27"
+                Log.d("Checking",formatted)
 
                 Log.d("Checking","Entered")
                 val response= RetrofitClient.apiService.getTimeTable(className,"2025-07-21")

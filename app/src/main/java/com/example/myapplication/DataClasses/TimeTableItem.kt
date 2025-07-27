@@ -10,5 +10,6 @@ data class TimeTableItem(
     val day: String?=null,
     val lab: Lab?=null,
     val lecture: Lecture?=null,
-    val slot: Int
+    val slot: Int,
+    val order: Int
 )
