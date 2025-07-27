@@ -265,8 +265,7 @@ fun HomeScreen(timeTableViewModel: TimeTableViewModel) {
                         Indicator(
                             modifier = Modifier.align(Alignment.TopCenter),
                             isRefreshing = loading,
-                            containerColor = MaterialTheme.colorScheme.primaryContainer,
-                            color = MaterialTheme.colorScheme.onPrimaryContainer,
+                            color = Color.Blue,
                             state = pullRefreshState
                         )
                     },
