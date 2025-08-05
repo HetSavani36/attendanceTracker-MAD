@@ -28,7 +28,7 @@ class TimeTableViewModel: ViewModel() {
                 Log.d("Checking",formatted)
 
                 Log.d("Checking","Entered")
-                val response= RetrofitClient.apiService.getTimeTable(className,"2025-07-21")
+                val response= RetrofitClient.apiService.getTimeTable(className,formatted)
                 _timeTable.value=response
                 Log.d("Checking","Done")
             }catch (e: Exception){
