@@ -21,13 +21,11 @@ import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.material3.pulltorefresh.PullToRefreshDefaults.Indicator
-import androidx.compose.material3.pulltorefresh.pullToRefresh
 import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -42,8 +40,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.myapplication.DataClasses.TimeTable
-import com.example.myapplication.DataClasses.TimeTableItem
 import java.time.LocalDate
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -307,42 +303,3 @@ fun HomeScreen(timeTableViewModel: TimeTableViewModel) {
         }
     }
 }
-//
-//@OptIn(ExperimentalMaterial3Api::class)
-//@Composable
-//fun PullToRefreshBasicSample(
-//    timeTable: TimeTable,
-//    isRefreshing: Boolean,
-//    onRefresh: () -> Unit,
-//    modifier: Modifier = Modifier,
-//    timeTableViewModel: TimeTableViewModel
-//) {
-//    val state = rememberPullToRefreshState()
-//    PullToRefreshBox(
-//        isRefreshing = isRefreshing,
-//        onRefresh = onRefresh,
-//        modifier = modifier,
-//        state = state,
-//        indicator = {
-//            Indicator(
-//                modifier = Modifier.align(Alignment.TopCenter),
-//                isRefreshing = isRefreshing,
-//                containerColor = MaterialTheme.colorScheme.primaryContainer,
-//                color = MaterialTheme.colorScheme.onPrimaryContainer,
-//                state = state
-//            )
-//        },
-//    ) {
-//        LazyColumn(verticalArrangement = Arrangement.spacedBy(10.dp)) {
-//            items(timeTable) { timeTableItem ->
-//                if (timeTableItem.lecture==null) {
-//                    Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
-//                        for (i in 0..3) {
-//                            TimeTableCard1(timeTableItem, (i + 65).toChar().toString(),timeTableViewModel)
-//                        }
-//                    }
-//                } else TimeTableCard(timeTableItem,timeTableViewModel)
-//            }
-//        }
-//    }
-//}

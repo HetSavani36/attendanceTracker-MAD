@@ -1,6 +1,6 @@
 package com.example.myapplication
 
-import android.widget.Space
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.AlertDialog
@@ -28,8 +29,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.myapplication.DataClasses.Count
 import com.example.myapplication.DataClasses.TimeTableItem
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -91,7 +94,7 @@ fun TimeTableCard(timeTableItem: TimeTableItem,timeTableViewModel: TimeTableView
         }
     }
     if(showDialog){
-//        DailogUi({ showDialog = false },timeTableItem,timeTableViewModel)
+        DailogUi({ showDialog = false },timeTableItem,timeTableViewModel)
     }
 }
 
@@ -179,102 +182,104 @@ fun TimeTableCard1(timeTableItem: TimeTableItem, batch: String,timeTableViewMode
         }
     }
     if(showDialog){
-//        DailogUi1({showDialog=false},timeTableItem,batch,timeTableViewModel)
+        DailogUi1({ showDialog = false },timeTableItem,timeTableViewModel,batch)
     }
 }
 
 //
-//@Composable
-//fun DailogUi(
-//    onDismissalRequest: () -> Unit,
-//    lecture: TimeTableItem,
-//    timeTableViewModel: TimeTableViewModel
-//) {
-//    var count by remember { mutableStateOf("0") }
-//    AlertDialog(
-//        onDismissRequest = { onDismissalRequest() },
-//        title = {
-//            Text(getSubjectName(lecture.batches.A.subject))
-//        },
-//        text = {
-//            OutlinedTextField(
-//                value = count,
-//                onValueChange = {count=it},
-//                label = { Text("Enter Count") },
-//                singleLine = true
-//            )
-//        },
-//        confirmButton = {
-//            Button(
-//                onClick = {
-//                    timeTableViewModel.mark(
-//                        Mark(
-//                            lecture.`class`,
-//                            lecture.index,
-//                            lecture.isLab,
-//                            count=count.toInt()
-//                        )
-//                    )
-//                    onDismissalRequest()
-//                }
-//            ) {
-//                Text("Save")
-//            }
-//            // .add(date,class,index,count)
-//        },
-//        dismissButton = {
-//            Button(
-//                onClick = {onDismissalRequest()}
-//            ) {
-//                Text("Cancel")
-//            }
-//        }
-//    )
-//}
-//
-//
-//
-//@Composable
-//fun DailogUi1(
-//    onDismissalRequest: () -> Unit,
-//    lecture: TimeTableItem,
-//    batch: String,
-//    timeTableViewModel: TimeTableViewModel
-//) {
-//    var count by remember { mutableStateOf("0") }
-//    AlertDialog(
-//        onDismissRequest = { onDismissalRequest() },
-//        title = {
-//            if(batch=="A") Text(getSubjectName(lecture.batches.A.subject))
-//            if(batch=="B") Text(getSubjectName(lecture.batches.B.subject))
-//            if(batch=="C") Text(getSubjectName(lecture.batches.C.subject))
-//            if(batch=="D") Text(getSubjectName(lecture.batches.D.subject))
-//        },
-//        text = {
-//            OutlinedTextField(
-//                value = "0",
-//                onValueChange = {count=it},
-//                label = { Text("Enter Count") },
-//                singleLine = true
-//            )
-//        },
-//        confirmButton = {
-//            Button(
-//                onClick = {}
-//            ) {
-//                Text("Save")
-//            }
-//            // .add(date,class,index,countBatchwise)
-//        },
-//        dismissButton = {
-//            Button(
-//                onClick = {onDismissalRequest()}
-//            ) {
-//                Text("Cancel")
-//            }
-//        }
-//    )
-//}
+@Composable
+fun DailogUi(
+    onDismissalRequest: () -> Unit,
+    timeTableItem: TimeTableItem,
+    timeTableViewModel: TimeTableViewModel
+) {
+    var count by remember { mutableStateOf("0") }
+    AlertDialog(
+        onDismissRequest = { onDismissalRequest() },
+        title = {
+            Text(getSubjectName(timeTableItem.lecture?.subjectName))
+        },
+        text = {
+            OutlinedTextField(
+                value = count,
+                onValueChange = {count=it},
+                label = { Text("Enter Count") },
+                singleLine = true,
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+            )
+        },
+        confirmButton = {
+            Button(
+                onClick = {
+                    Log.d("id",timeTableItem._id)
+                    timeTableViewModel.mark(timeTableItem.`class`,timeTableItem._id, Count(count = count.toInt()))
+//                    timeTableViewModel.mark(timeTableItem.`class`,timeTableItem.slot, Count(count.toInt()))
+                    onDismissalRequest()
+                }
+            ) {
+                Text("Save")
+            }
+        },
+        dismissButton = {
+            Button(
+                onClick = {onDismissalRequest()}
+            ) {
+                Text("Cancel")
+            }
+        }
+    )
+}
+
+
+
+@Composable
+fun DailogUi1(
+    onDismissalRequest: () -> Unit,
+    timeTableItem: TimeTableItem,
+    timeTableViewModel: TimeTableViewModel,
+    batch: String
+) {
+    var count by remember { mutableStateOf("0") }
+    AlertDialog(
+        onDismissRequest = { onDismissalRequest() },
+        title = {
+            if(batch=="A") Text(getSubjectName(timeTableItem.lab?.A?.subjectName))
+            if(batch=="B") Text(getSubjectName(timeTableItem.lab?.B?.subjectName))
+            if(batch=="C") Text(getSubjectName(timeTableItem.lab?.C?.subjectName))
+            if(batch=="D") Text(getSubjectName(timeTableItem.lab?.D?.subjectName))
+        },
+        text = {
+            OutlinedTextField(
+                value = count,
+                onValueChange = {count=it},
+                label = { Text("Enter Count") },
+                singleLine = true
+            )
+        },
+        confirmButton = {
+            Button(
+                onClick = {
+                    if(batch=="A") timeTableViewModel.mark(timeTableItem.`class`,timeTableItem._id, Count(countA = count.toInt()),batch)
+                    if(batch=="B") timeTableViewModel.mark(timeTableItem.`class`,timeTableItem._id, Count(countB = count.toInt()),batch)
+                    if(batch=="C") timeTableViewModel.mark(timeTableItem.`class`,timeTableItem._id, Count(countC = count.toInt()),batch)
+                    if(batch=="D") timeTableViewModel.mark(timeTableItem.`class`,timeTableItem._id, Count(countD = count.toInt()),batch)
+//                    timeTableViewModel.mark(timeTableItem.`class`,timeTableItem.slot, Count(count.toInt()))
+                    onDismissalRequest()
+                }
+            ) {
+                Text("Save")
+            }
+            // .add(date,class,index,countBatchwise)
+        },
+        dismissButton = {
+            Button(
+                onClick = {onDismissalRequest()}
+            ) {
+                Text("Cancel")
+            }
+        }
+    )
+}
 
 fun getSubjectName(code: String?): String {
     if (code == "CE361") return "Operating System"
