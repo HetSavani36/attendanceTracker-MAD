@@ -281,17 +281,7 @@ fun HomeScreen(timeTableViewModel: TimeTableViewModel) {
                     } else {
                         LazyColumn(verticalArrangement = Arrangement.spacedBy(10.dp)) {
                             items(timeTable) { timeTableItem ->
-                                if (timeTableItem.lecture == null) {
-                                    Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
-                                        for (i in 0..3) {
-                                            TimeTableCard1(
-                                                timeTableItem,
-                                                (i + 65).toChar().toString(),
-                                                timeTableViewModel
-                                            )
-                                        }
-                                    }
-                                } else TimeTableCard(timeTableItem, timeTableViewModel)
+                                TimeTableCard(timeTableItem, timeTableViewModel)
                             }
                         }
                     }
