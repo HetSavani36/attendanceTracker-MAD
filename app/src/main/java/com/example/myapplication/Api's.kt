@@ -18,7 +18,4 @@ interface ApiService{
 
     @POST("api/attendance/mark/{id}")
     suspend fun mark(@Path("id") id: String,@Query("date") date: String, @Query("count") count: String)
-
-//    @POST("api/attendance/mark/{id}/{batch}")
-//    suspend fun mark(@Path("id") id: String,@Path("batch") batch: String, @Query("date") date: String, @Body count: Count)
 }

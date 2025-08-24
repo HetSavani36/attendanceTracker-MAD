@@ -1,6 +1,7 @@
 package com.example.myapplication
 
 import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -28,6 +29,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
@@ -40,6 +42,7 @@ fun TimeTableCard(
     timeTableItem: TimetableItem,
     timeTableViewModel: TimeTableViewModel
 ) {
+    val context= LocalContext.current
     var showDialog by remember { mutableStateOf(false) }
 
     // Lifted state for attendance count
@@ -106,8 +109,9 @@ fun TimeTableCard(
             onDismissalRequest = { showDialog = false },
             initialCount = attendanceCount,
             onSave = { newCount ->
-                attendanceCount = newCount   // commit new value
                 timeTableViewModel.mark(timeTableItem._id, newCount.toString())
+                attendanceCount = newCount   // commit new value
+                Toast.makeText(context,"Attendance Marked Successfully!", Toast.LENGTH_SHORT).show()
             },
             timeTableItem = timeTableItem
         )
@@ -124,15 +128,16 @@ fun DialogUi(
     timeTableItem: TimetableItem
 ) {
     var tempCount by remember { mutableStateOf(initialCount.toString()) }
-//    var countText by remember { mutableStateOf(attendanceCount.toString()) }
-
+    val context = LocalContext.current
     AlertDialog(
         onDismissRequest = { onDismissalRequest() },
         title = { Text(timeTableItem.subjectName) },
         text = {
             OutlinedTextField(
                 value = tempCount,
-                onValueChange = { tempCount = it },
+                onValueChange = {
+                    tempCount = it
+                },
                 label = { Text("Enter Count") },
                 singleLine = true,
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
@@ -140,9 +145,14 @@ fun DialogUi(
         },
         confirmButton = {
             Button(onClick = {
-                val newCount = tempCount.toIntOrNull() ?: 0
-                onSave(newCount)     // commit change to parent
-                onDismissalRequest()
+                if(tempCount.toIntOrNull().toString()!=tempCount) {
+                    Toast.makeText(context,"Please Enter Valid Count !", Toast.LENGTH_SHORT).show()
+                }
+                else{
+                    val newCount = tempCount.toIntOrNull() ?: 0
+                    onSave(newCount)     // commit change to parent
+                    onDismissalRequest()
+                }
             }) {
                 Text("Save")
             }
